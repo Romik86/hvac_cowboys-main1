@@ -197,23 +197,35 @@
   overflow: visible;
 }
 
+ul li, ol li {
+  color: #000 !important;         /* Pure black text */
+  font-weight: bold;
+  text-shadow: none;              /* Remove any transparency or shadow */
+  opacity: 1 !important;          /* Fully opaque */
+}
+
 /* =========================
    ENGRAVED TEXT – INSIDE CIRCLE
 ========================= */
 .engraved-text {
-  font-size: 19px;                 /* SAFE BASE SIZE */
-  font-weight: 800;
+  font-size: 19px;
+  font-weight: 600;
   letter-spacing: 0.7px;
-  fill: #000000;
+
+  fill: #000000;        /* PURE BLACK */
+  stroke: #000000;      /* PURE BLACK */
+  stroke-width: 1.2px;
+
+  paint-order: stroke fill;
   text-anchor: middle;
   dominant-baseline: middle;
   text-rendering: geometricPrecision;
 
-  /* FORCE TEXT INWARD */
   transform-box: fill-box;
   transform-origin: center;
   transform: scale(0.90) translateY(3px);
 }
+
 
 /* EXTRA SAFETY FOR LONG WORDS */
 .engraved-text textPath {
@@ -260,6 +272,64 @@
 .size-sm svg { width: 90px;  height: 90px; }
 .size-xs svg { width: 80px;  height: 80px; }
 
+
+li, li * {
+  color: #000 !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+  background: transparent !important;
+  -webkit-text-stroke: 0.7px #000 !important;
+}
+
+
+
+/* =========================
+   MOBILE HERO TEXT FIX
+========================= */
+@media (max-width: 768px) {
+
+  .heroSwiper .swiper-slide > div.flex {
+    justify-content: flex-start !important;
+    padding-top: 140px;   /* was 120px */
+    padding-bottom: 80px; /* was 60px */
+  }
+
+  .heroSwiper h1 {
+    margin-bottom: 28px; /* was 24px */
+  }
+
+  .heroSwiper p {
+    margin-top: 16px;    /* was 12px */
+  }
+}
+
+
+/* =========================
+   MOBILE HERO IMAGE SCALE UP
+========================= */
+@media (max-width: 768px) {
+
+  /* Make slides slightly taller */
+  .heroSwiper,
+  .heroSwiper .swiper-wrapper,
+  .heroSwiper .swiper-slide {
+    min-height: 105vh !important;
+  }
+
+  /* Scale images vertically */
+  .heroSwiper img,
+  .hero-image {
+    height: 105% !important;
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+}
+
+
+
+
   </style>
 </head>
 
@@ -271,7 +341,9 @@
 
   <!-- HERO card -->
 <!-- HERO card -->
-<div class="relative overflow-hidden bg-black w-full h-[80vh] sm:h-[90vh] md:h-screen">
+<div class="relative overflow-hidden bg-black w-full h-[95vh] sm:h-[90vh] md:h-screen">
+
+
 
 
     <!-- background image -->
@@ -286,7 +358,7 @@
         <div class="absolute inset-0 bg-black opacity-40"></div>
         <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-20">
           <h1 class="text-white font-extrabold text-4xl sm:text-5xl lg:text-6xl mb-4 drop-shadow-lg"
-              data-aos="fade-up">HVAC Cowboys</h1>
+              data-aos="fade-up"><br>HVAC Cowboys</h1>
           <p class="text-white/90 max-w-2xl text-lg sm:text-xl"
               data-aos="fade-up" data-aos-delay="200">
             Riding to your rescue with professional HVAC and plumbing services. Experience the difference of cowboy-quality workmanship.
@@ -313,7 +385,7 @@
           <br>
           <p class="text-white/90 max-w-2xl text-lg sm:text-xl py-3"
               data-aos="fade-up" data-aos-delay="200">  
-            Our certified HVAC technicians have the expertise to perform<br>furnace replacements, upgrades, or new installs.
+          
           </p>
           <a href="#services"
             class="scroll-link mt-8 border border-white text-white bg-transparent px-7 py-3 rounded-full font-semibold hover:bg-white hover:text-black transition"
@@ -348,7 +420,7 @@
         <div class="absolute inset-0 bg-black opacity-40"></div>
         <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-20">
           <h1 class="text-white font-extrabold text-4xl sm:text-5xl lg:text-6xl mb-4 drop-shadow-lg"
-              data-aos="fade-up">HVAC Cowboys</h1>
+              data-aos="fade-up"><br>HVAC Cowboys</h1>
           <p class="text-white/90 max-w-2xl text-lg sm:text-xl"
               data-aos="fade-up" data-aos-delay="200">
             Riding to your rescue with professional HVAC and plumbing services. Experience the difference of cowboy-quality workmanship.
@@ -775,10 +847,14 @@
 
             <!-- ENGRAVING DEPTH -->
             <filter id="engrave">
-              <feOffset dx="0" dy="0.6"/>
-              <feGaussianBlur stdDeviation="0.9" result="shadow"/>
-              <feComposite in="shadow" in2="SourceGraphic" operator="out"/>
-            </filter>
+  <!-- subtle depth shadow -->
+  <feOffset dx="0" dy="0.6" result="offset"/>
+  <feGaussianBlur in="offset" stdDeviation="0.5" result="blur"/>
+
+  <!-- darken, NOT subtract -->
+  <feComposite in="blur" in2="SourceGraphic" operator="over"/>
+</filter>
+
           </defs>
 
           <image href="assets/images/bullet.JPG"
@@ -787,7 +863,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="56%">
               C O W
             </textPath>
           </text>
@@ -815,7 +891,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="42%">
               B O Y
             </textPath>
           </text>
@@ -843,7 +919,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="53%">
               S I X
             </textPath>
           </text>
@@ -871,7 +947,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="47%">
               S H O O T E R
             </textPath>
           </text>
@@ -899,7 +975,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="55%">
               C O D E
             </textPath>
           </text>
@@ -927,7 +1003,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="44%">
               O F
             </textPath>
           </text>
@@ -955,7 +1031,7 @@
                  clip-path="url(#clip)" />
 
           <text class="engraved-text" filter="url(#engrave)">
-            <textPath href="#engravePath" startOffset="50%">
+            <textPath href="#engravePath" startOffset="55%">
               C O N D U C T
             </textPath>
           </text>
